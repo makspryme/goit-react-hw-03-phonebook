@@ -9,6 +9,22 @@ export default class App extends Component {
     filter: '',
   };
 
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  };
+
+  componentDidMount = () => {
+    const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
+
+    if (parsedContacts) {
+      this.setState({
+        contacts: parsedContacts,
+      });
+    }
+  };
+
   removerContacts = data => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== data.id),
@@ -23,22 +39,6 @@ export default class App extends Component {
     this.setState(prevState => ({
       contacts: [...prevState.contacts, newContact],
     }));
-  };
-
-  componentDidMount = () => {
-    const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
-
-    if (parsedContacts) {
-      this.setState({
-        contacts: parsedContacts,
-      });
-    }
-  };
-
-  componentDidUpdate = (prevProps, prevState) => {
-    if (prevState.contacts !== this.state.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
   };
 
   render() {
