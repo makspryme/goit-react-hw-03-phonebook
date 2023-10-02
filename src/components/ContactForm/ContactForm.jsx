@@ -1,31 +1,19 @@
 import React, { Component } from 'react';
-import { nanoid } from 'nanoid';
 
 export default class ContactForm extends Component {
   state = {
-    id: '',
     name: '',
     number: '',
   };
 
   handleInputChange = e => {
     const { name, value } = e.currentTarget;
-    this.setState({ id: nanoid(), [name]: value });
+    this.setState({ [name]: value });
   };
 
   handleSubmitForm = e => {
     e.preventDefault();
-    const { name } = this.state;
-
-    for (const contact of this.props.isContact) {
-      if (contact.name === name) {
-        alert(`${name} is already in contacts`);
-        return;
-      }
-    }
-
     this.reset();
-
     return this.props.onSubmit(this.state);
   };
 
